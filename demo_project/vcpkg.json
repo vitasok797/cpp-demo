@@ -1,0 +1,7 @@
+{
+    "name": "demo-project",
+    "dependencies": [
+        "fmt"
+    ],
+    "builtin-baseline": "8d88de013751588c7361735aa748490619775058"
+}
