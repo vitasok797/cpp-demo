@@ -9,8 +9,6 @@
 * CSV:
   * [ ] fast-cpp-csv-parser (https://github.com/ben-strasser/fast-cpp-csv-parser)
   * [ ] rapidcsv (https://github.com/d99kris/rapidcsv)
-* Frameworks:
-  * [ ] ms-gsl
 * Argument parsers:
   * [ ] abseil (flags)
   * [ ] cxxopts
