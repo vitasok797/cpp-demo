@@ -1,24 +1,29 @@
 @echo off
 
 set PRESET=win-x64-debug
-set EXEC_NAME=test
 
 call %~dp0\..\..\demo_project\msvc_setvars.bat
-if errorlevel 1 echo ERROR & pause & goto:eof
+if errorlevel 1 goto :error
 
-if NOT EXIST "out\build\%PRESET%\CMakeCache.txt" (
+if NOT EXIST "out\build\%PRESET%\build.ninja" (
 	cmake --preset=%PRESET%
-	if errorlevel 1 echo ERROR & pause & goto:eof
+	if %errorlevel% NEQ 0 goto :error
 )
 
 cmake --build --preset=%PRESET%
-if errorlevel 1 echo ERROR & pause & goto:eof
+if %errorlevel% NEQ 0 goto :error
 
 echo.
-echo --- run ---------------------------------------------
+echo -----------------------------------------------------
 echo.
 
-out\build\%PRESET%\%EXEC_NAME%.exe
+out\build\%PRESET%\test.exe
 
 echo.
+pause
+
+goto:eof
+
+:error
+echo ERROR
 pause

@@ -10,7 +10,7 @@ if [%~1]==[rebuild] if EXIST "out\build" (
 	if errorlevel 1 goto :error
 )
 
-if NOT EXIST "out\build\%PRESET%\CMakeCache.txt" (
+if NOT EXIST "out\build\%PRESET%\build.ninja" (
 	cmake --preset=%PRESET%
 	if %errorlevel% NEQ 0 goto :error
 )
