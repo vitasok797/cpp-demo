@@ -25,16 +25,41 @@ add_library(${CUR_TARGET} INTERFACE)
 find_package(fmt CONFIG REQUIRED)
 target_link_libraries(${CUR_TARGET} INTERFACE fmt::fmt)
 
-#--- executable ----------------------------------------------------------------------------------
+#--- demo_project lib ----------------------------------------------------------------------------
+
+set(CUR_TARGET lib_demo_project)
+add_library(${CUR_TARGET} STATIC)
+
+target_link_libraries(${CUR_TARGET} PUBLIC dependencies)
+target_include_directories(${CUR_TARGET} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+configure_cxx_options(${CUR_TARGET})
+
+target_sources(${CUR_TARGET} PRIVATE
+    "demo_project/to_str.cpp"
+    )
+
+#--- demo_project executable ---------------------------------------------------------------------
 
 set(CUR_TARGET demo_project)
 add_executable(${CUR_TARGET})
 
-target_link_libraries(${CUR_TARGET} PRIVATE dependencies)
-target_include_directories(${CUR_TARGET} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_link_libraries(${CUR_TARGET} PRIVATE lib_demo_project)
 configure_cxx_options(${CUR_TARGET})
 
 target_sources(${CUR_TARGET} PRIVATE
     "demo_project/demo_project.cpp"
-    "demo_project/to_str.cpp"
+    )
+
+#--- tests executable ----------------------------------------------------------------------------
+
+set(CUR_TARGET run_tests)
+add_executable(${CUR_TARGET})
+
+target_link_libraries(${CUR_TARGET} PRIVATE lib_demo_project)
+configure_cxx_options(${CUR_TARGET})
+
+target_sources(${CUR_TARGET} PRIVATE
+    "demo_project/to_str.test.cpp"
+    "test/integration_tests.cpp"
+    "test/run_tests.cpp"
     )
