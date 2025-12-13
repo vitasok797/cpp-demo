@@ -1,15 +1,15 @@
 #include "demo_project.h"
 
-#include <demo_project/test.h>
+#include <demo_project/to_str.h>
 
-#include <fmt/core.h>
+#include <fmt/format.h>
 
 auto main() -> int
 {
-    fmt::print("Hello World!\n");
+    fmt::println("Hello World!");
 
-    fmt::print("App version is {}\n", DEMO_PROJECT_VERSION);
-    fmt::print("Lib fmt version is {}\n", FMT_VERSION);
+    fmt::println("App version is {}", DEMO_PROJECT_VERSION);
+    fmt::println("Lib fmt version is {}", FMT_VERSION);
 
-    test();
+    fmt::println("{}", to_str::int_to_str(123));
 }

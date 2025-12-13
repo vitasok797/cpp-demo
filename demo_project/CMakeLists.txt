@@ -36,5 +36,5 @@ configure_cxx_options(${CUR_TARGET})
 
 target_sources(${CUR_TARGET} PRIVATE
     "demo_project/demo_project.cpp"
-    "demo_project/test.cpp"
+    "demo_project/to_str.cpp"
     )
