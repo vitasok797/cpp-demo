@@ -17,7 +17,7 @@ endfunction()
 
 # add_linux_relative_so_search_path(".")
 
-#--- dependencies -----------------------------------------------------------------
+#--- dependencies --------------------------------------------------------------------------------
 
 set(CUR_TARGET dependencies)
 add_library(${CUR_TARGET} INTERFACE)
