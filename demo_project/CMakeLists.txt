@@ -52,14 +52,18 @@ target_sources(${CUR_TARGET} PRIVATE
 
 #--- tests executable ----------------------------------------------------------------------------
 
-set(CUR_TARGET run_tests)
-add_executable(${CUR_TARGET})
+option(DEMO_PROJECT_BUILD_TESTS "Build tests" ON)
 
-target_link_libraries(${CUR_TARGET} PRIVATE lib_demo_project)
-configure_cxx_options(${CUR_TARGET})
+if(DEMO_PROJECT_BUILD_TESTS AND "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    set(CUR_TARGET run_tests)
+    add_executable(${CUR_TARGET})
 
-target_sources(${CUR_TARGET} PRIVATE
-    "demo_project/to_str.test.cpp"
-    "test/integration_tests.cpp"
-    "test/run_tests.cpp"
-    )
+    target_link_libraries(${CUR_TARGET} PRIVATE lib_demo_project)
+    configure_cxx_options(${CUR_TARGET})
+
+    target_sources(${CUR_TARGET} PRIVATE
+        "demo_project/to_str.test.cpp"
+        "test/integration_tests.cpp"
+        "test/run_tests.cpp"
+        )
+endif()
