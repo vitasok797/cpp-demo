@@ -1,30 +1,41 @@
-#include <cassert>
-#include <iostream>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
 #include <stdexcept>
+#include <string>
 
-namespace test
+namespace integration_tests
 {
 
-static auto test_ex() -> void
-{
-    const auto do_trow = []() { throw std::runtime_error{""}; };
+using ::testing::HasSubstr;
 
-    try
-    {
-        do_trow();
-        assert(false && "Exception is not thrown");
-    }
-    catch (const std::runtime_error&)
-    {}
+TEST(GtestDemoTest, AssertThrow)
+{
+    auto do_throw = []() { throw std::runtime_error{""}; };
+    ASSERT_THROW(do_throw(), std::runtime_error);
 }
 
-auto run_integration_tests() -> void
+TEST(GtestDemoTest, AssertThat)
 {
-    std::cout << "testing \"integration_tests\": ";
-
-    test_ex();
-
-    std::cout << "OK" << std::endl;
+    auto s = std::string{"123xxx456"};
+    ASSERT_THAT(s, HasSubstr("xxx")) << "String \"" << s << "\" does not contain \"xxx\"";
 }
 
-}  // namespace test
+TEST(GtestDemoTest, Fail)
+{
+    auto s = std::string{"123"};
+    if (s.empty()) FAIL() << "s is empty";
+}
+
+TEST(GtestDemoTest, Propagating)
+{
+    auto test_failure = false;
+    auto sub = [=]() { ASSERT_FALSE(test_failure); };
+
+    // sub();
+    ASSERT_NO_FATAL_FAILURE(sub());
+
+    ASSERT_FALSE(test_failure) << "nooooooooooo";
+}
+
+}  // namespace integration_tests

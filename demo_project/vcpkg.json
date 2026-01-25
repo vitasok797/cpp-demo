@@ -1,7 +1,8 @@
 {
     "name": "demo-project",
     "dependencies": [
-        "fmt"
+        "fmt",
+        "gtest"
     ],
     "builtin-baseline": "8d88de013751588c7361735aa748490619775058"
 }

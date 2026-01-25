@@ -55,15 +55,21 @@ target_sources(${CUR_TARGET} PRIVATE
 option(DEMO_PROJECT_BUILD_TESTS "Build tests" ON)
 
 if(DEMO_PROJECT_BUILD_TESTS AND "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    enable_testing()
+    find_package(GTest CONFIG REQUIRED)
+
     set(CUR_TARGET tests)
     add_executable(${CUR_TARGET})
 
+    target_link_libraries(${CUR_TARGET} PRIVATE GTest::gtest_main GTest::gmock)
     target_link_libraries(${CUR_TARGET} PRIVATE lib_demo_project)
     configure_cxx_options(${CUR_TARGET})
 
     target_sources(${CUR_TARGET} PRIVATE
         "demo_project/to_str.test.cpp"
         "test/integration_tests.cpp"
-        "test/run_tests.cpp"
         )
+
+    include(GoogleTest)
+    gtest_discover_tests(${CUR_TARGET})
 endif()
