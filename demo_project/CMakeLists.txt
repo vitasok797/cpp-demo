@@ -55,7 +55,7 @@ target_sources(${CUR_TARGET} PRIVATE
 option(DEMO_PROJECT_BUILD_TESTS "Build tests" ON)
 
 if(DEMO_PROJECT_BUILD_TESTS AND "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    set(CUR_TARGET run_tests)
+    set(CUR_TARGET tests)
     add_executable(${CUR_TARGET})
 
     target_link_libraries(${CUR_TARGET} PRIVATE lib_demo_project)
