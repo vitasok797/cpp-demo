@@ -1,5 +1,0 @@
-{
-    "name": "test",
-    "dependencies": ["tl-ranges"],
-    "builtin-baseline": "d912d8d62818710b876969cd60d547f50687a613"
-}

@@ -1,0 +1,24 @@
+{
+    "name": "lib-tests",
+    "dependencies": [
+        "fmt",
+        "gtest",
+        "magic-enum",
+        "ms-gsl",
+        "nameof",
+        "p-ranav-csv2",
+        {
+            "name": "poco",
+            "default-features": false,
+            "features": [
+                "encodings",
+                "net"
+            ]
+        },
+        "range-v3",
+        "strong-type",
+        "tabulate",
+        "tl-ranges"
+    ],
+    "builtin-baseline": "d912d8d62818710b876969cd60d547f50687a613"
+}
