@@ -1,5 +1,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
 #include <tabulate/table.hpp>
 
 TEST(TabulateTest, Main)

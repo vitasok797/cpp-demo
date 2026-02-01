@@ -1,6 +1,7 @@
-#include <csv2/reader.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <csv2/reader.hpp>
 
 #include <string>
 

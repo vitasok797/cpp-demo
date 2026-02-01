@@ -1,5 +1,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
 #include <strong_type/strong_type.hpp>
 
 using MyInt = strong::type<int, struct MyInt_tag>;

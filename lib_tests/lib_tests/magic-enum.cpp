@@ -1,5 +1,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
 #include <magic_enum/magic_enum.hpp>
 
 enum class Color

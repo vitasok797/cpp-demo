@@ -1,7 +1,8 @@
-#include <fmt/format.h>
-#include <fmt/ranges.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <fmt/format.h>
+#include <fmt/ranges.h>
 
 #include <vector>
 

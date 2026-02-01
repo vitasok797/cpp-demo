@@ -1,6 +1,7 @@
-#include <./nameof.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#include <./nameof.hpp>
 
 struct TestStruct
 {
