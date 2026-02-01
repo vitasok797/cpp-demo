@@ -16,13 +16,13 @@ endfunction()
 
 function(add_lib_test name)
     set(target "test_${name}")
+    set(dependencies ${ARGN})
 
     add_executable(${target})
     target_link_libraries(${target} PRIVATE GTest::gtest_main GTest::gmock)
     target_sources(${target} PRIVATE "lib_tests/${name}.cpp")
     configure_cxx_options(${target})
 
-    set(dependencies ${ARGN})
     if(dependencies)
         target_link_libraries(${target} PRIVATE ${dependencies})
     endif()
