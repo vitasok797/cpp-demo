@@ -492,7 +492,7 @@ class RunAction(BaseAction):
         if not executables:
             raise ActionError('Executables not found')
 
-        variants = {exe.name: exe for exe in executables}
+        variants = {exe.name: exe for exe in sorted(executables)}
         selected_exe = Console.select(prompt='Select executable:', variants=variants)
 
         if selected_exe is None:
