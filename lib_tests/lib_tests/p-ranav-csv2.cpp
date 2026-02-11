@@ -5,7 +5,7 @@
 
 #include <string>
 
-auto test_file(const std::string& path) -> void
+static auto test_file(const std::string& path) -> void
 {
     auto csv = csv2::Reader<                                 //
         csv2::delimiter<';'>,                                //

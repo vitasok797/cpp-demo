@@ -6,7 +6,7 @@
 using MyInt = strong::type<int, struct MyInt_tag>;
 using MyInt2 = strong::type<int, struct MyInt2_tag, strong::regular, strong::ordered>;
 
-auto check_my_int(const MyInt& value, int raw_value) -> void
+static auto check_my_int(const MyInt& value, int raw_value) -> void
 {
     EXPECT_EQ(value_of(value), raw_value);
     EXPECT_EQ(value.value_of(), raw_value);
