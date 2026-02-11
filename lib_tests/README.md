@@ -26,7 +26,7 @@
   * [ ] grpc
   * [ ] fastdds
 * Logging:
-  * [ ] glog
+  * ?
 * HTTP servers:
   * [ ] civetweb
 * Var:
