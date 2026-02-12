@@ -25,7 +25,5 @@
 * Communication:
   * [ ] grpc
   * [ ] fastdds
-* Logging:
-  * **spdlog**
-* HTTP servers:
-  * [ ] civetweb
+* Web frameworks:
+  * [ ] crow
