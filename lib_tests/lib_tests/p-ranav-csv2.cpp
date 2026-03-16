@@ -51,9 +51,8 @@ static auto test_file(const std::string& path) -> void
 
 TEST(PRanavCsv2Test, Complex)
 {
-    // auto data_dir = std::string{"../../../lib_tests/data/p-ranav-csv2"};
-    auto data_dir = std::string{"lib_tests/data/p-ranav-csv2"};
+    const auto data_dir = std::string{"lib_tests/data/csv"};
 
-    ASSERT_NO_FATAL_FAILURE(test_file(data_dir + "/test1_lf.csv"));
-    ASSERT_NO_FATAL_FAILURE(test_file(data_dir + "/test2_crlf.csv"));
+    ASSERT_NO_FATAL_FAILURE(test_file(data_dir + "/data1_lf.csv"));
+    ASSERT_NO_FATAL_FAILURE(test_file(data_dir + "/data2_crlf.csv"));
 }

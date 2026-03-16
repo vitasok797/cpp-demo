@@ -30,6 +30,13 @@ endfunction()
 
 #--- lib tests -----------------------------------------------------------------------------------
 
+add_lib_test(exprtk)
+if(MSVC)
+    target_compile_options(test_exprtk PRIVATE /bigobj /wd4702)
+endif()
+find_path(EXPRTK_INCLUDE_DIRS "exprtk.hpp")
+target_include_directories(test_exprtk PRIVATE ${EXPRTK_INCLUDE_DIRS})
+
 find_package(fmt CONFIG REQUIRED)
 add_lib_test(fmt fmt::fmt)
 
@@ -42,6 +49,9 @@ add_lib_test(ms-gsl Microsoft.GSL::GSL)
 find_package(nameof CONFIG REQUIRED)
 add_lib_test(nameof nameof::nameof)
 
+find_package(nlohmann_json CONFIG REQUIRED)
+add_lib_test(nlohmann_json nlohmann_json::nlohmann_json)
+
 add_lib_test(p-ranav-csv2)
 find_path(P_RANAV_CSV2_INCLUDE_DIRS "csv2/mio.hpp")
 target_include_directories(test_p-ranav-csv2 PRIVATE ${P_RANAV_CSV2_INCLUDE_DIRS})
@@ -51,6 +61,10 @@ add_lib_test(poco Poco::Encodings Poco::Foundation Poco::Net)
 
 find_package(range-v3 CONFIG REQUIRED)
 add_lib_test(range-v3 range-v3::meta range-v3::concepts range-v3::range-v3)
+
+add_lib_test(rapidcsv)
+find_path(RAPIDCSV_INCLUDE_DIRS "rapidcsv.h")
+target_include_directories(test_rapidcsv PRIVATE ${RAPIDCSV_INCLUDE_DIRS})
 
 find_package(strong_type CONFIG REQUIRED)
 add_lib_test(strong-type strong_type::strong_type)
