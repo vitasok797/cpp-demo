@@ -74,3 +74,6 @@ add_lib_test(tabulate tabulate::tabulate)
 
 find_package(tl-ranges CONFIG REQUIRED)
 add_lib_test(tl-ranges tl::ranges)
+
+add_lib_test(vincentlaucsb-csv-parser)
+target_include_directories(test_vincentlaucsb-csv-parser PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/external)
