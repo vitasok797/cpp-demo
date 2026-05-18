@@ -2,12 +2,7 @@
 
 ## TODO
 
-* Unicode:
-  * [ ] ztd-text
-  * [ ] nowide
-  * [ ] ICU
 * Argument parsers:
-  * [ ] abseil (flags)
   * [ ] cxxopts
   * [ ] argparse
 * Formats:
