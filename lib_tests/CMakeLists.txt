@@ -34,7 +34,7 @@ add_lib_test(exprtk)
 if(MSVC)
     target_compile_options(test_exprtk PRIVATE /bigobj /wd4702)
 endif()
-find_path(EXPRTK_INCLUDE_DIR "exprtk.hpp")
+find_path(EXPRTK_INCLUDE_DIR "exprtk.hpp" REQUIRED)
 target_include_directories(test_exprtk PRIVATE ${EXPRTK_INCLUDE_DIR})
 
 find_package(fmt CONFIG REQUIRED)
@@ -53,7 +53,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 add_lib_test(nlohmann_json nlohmann_json::nlohmann_json)
 
 add_lib_test(p-ranav-csv2)
-find_path(P_RANAV_CSV2_INCLUDE_DIR "csv2/mio.hpp")
+find_path(P_RANAV_CSV2_INCLUDE_DIR "csv2/mio.hpp" REQUIRED)
 target_include_directories(test_p-ranav-csv2 PRIVATE ${P_RANAV_CSV2_INCLUDE_DIR})
 
 find_package(Poco REQUIRED COMPONENTS Encodings Foundation Net)
@@ -63,7 +63,7 @@ find_package(range-v3 CONFIG REQUIRED)
 add_lib_test(range-v3 range-v3::meta range-v3::concepts range-v3::range-v3)
 
 add_lib_test(rapidcsv)
-find_path(RAPIDCSV_INCLUDE_DIR "rapidcsv.h")
+find_path(RAPIDCSV_INCLUDE_DIR "rapidcsv.h" REQUIRED)
 target_include_directories(test_rapidcsv PRIVATE ${RAPIDCSV_INCLUDE_DIR})
 
 find_package(strong_type CONFIG REQUIRED)
