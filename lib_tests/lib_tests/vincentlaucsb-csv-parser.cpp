@@ -3,68 +3,120 @@
 
 #include <vincentlaucsb-csv-parser/csv.hpp>
 
+#include <stdexcept>
 #include <string>
-#include <string_view>
 
-static auto test_file(int header_row, const std::string& path, const char* expected_res) -> void
+using namespace testing;
+
+static auto get_default_format() -> auto
 {
     auto format = csv::CSVFormat{};
     format.delimiter({';', ','});
-    format.header_row(header_row);
     format.trim({' ', '\t'});
+    return format;
+}
 
+static auto process_file(const auto& format, const std::string& path) -> std::string
+{
     auto csv = csv::CSVReader{path, format};
 
-    if (header_row >= 0)
+    auto content = std::string{};
+
+    for (const auto& col_header : csv.get_col_names())
     {
-        auto header_content = std::string{};
-        for (const auto& col_header : csv.get_col_names())
-        {
-            header_content += "[";
-            header_content += col_header;
-            header_content += "]";
-        }
-        ASSERT_EQ(header_content, "[col1][col2]");
+        content += "(";
+        content += col_header;
+        content += ")";
     }
 
-    auto body_content = std::string{};
+    content += " H ";
+
     for (const auto& row : csv)
     {
-        auto is_single_empty_cell = (row.size() == 1 && row[0].is_null());
-        if (is_single_empty_cell)
+        if (row.empty())
         {
-            body_content += "*|";
+            content += "empty row | ";
             continue;
         }
 
-        ASSERT_EQ(row.size(), 2);
+        auto is_single_empty_cell = (row.size() == 1 && row[0].is_null());
+        if (is_single_empty_cell)
+        {
+            content += "empty cell | ";
+            continue;
+        }
+
         for (auto& cell : row)
         {
-            body_content += "[";
-            body_content += cell.get<std::string_view>();
-            body_content += "]";
+            content += "[";
+            content += cell.get_sv();
+            content += "]";
         }
-        body_content += "|";
+        content += " | ";
     }
-    ASSERT_EQ(body_content, expected_res);
+
+    return content;
+}
+
+static auto test_files(const auto& format, const char* expected_res) -> void
+{
+    const auto data_dir = std::string{"lib_tests/data/csv"};
+    ASSERT_EQ(process_file(format, data_dir + "/data1_lf.csv"), expected_res);
+    ASSERT_EQ(process_file(format, data_dir + "/data2_crlf.csv"), expected_res);
+    ASSERT_EQ(process_file(format, data_dir + "/data3_utf8bom_lf.csv"), expected_res);
 }
 
 TEST(VincentlaucsbCsvParserTest, WithHeader)
 {
-    const auto data_dir = std::string{"lib_tests/data/csv"};
-    const auto expected_res = "[val1][001]|[val2][002]|[val3][003]|";
+    auto format = get_default_format();
+    format.header_row(0);
 
-    ASSERT_NO_FATAL_FAILURE(test_file(0, data_dir + "/data1_lf.csv", expected_res));
-    ASSERT_NO_FATAL_FAILURE(test_file(0, data_dir + "/data2_crlf.csv", expected_res));
-    ASSERT_NO_FATAL_FAILURE(test_file(0, data_dir + "/data3_utf8bom_lf.csv", expected_res));
+    const auto expected_res = "(col1)(col2) H [val1][001] | [val2][002] | [val5][005] | ";
+
+    ASSERT_NO_FATAL_FAILURE(test_files(format, expected_res));
 }
 
-TEST(VincentlaucsbCsvParserTest, WithoutHeader)
+TEST(VincentlaucsbCsvParserTest, NoHeader)
 {
-    const auto data_dir = std::string{"lib_tests/data/csv"};
-    const auto expected_res = "[col1][col2]|[val1][001]|*|[val2][002]|[val3][003]|";
+    auto format = get_default_format();
+    format.no_header();
+    // format.variable_columns(csv::VariableColumnPolicy::KEEP);  // default
 
-    ASSERT_NO_FATAL_FAILURE(test_file(-1, data_dir + "/data1_lf.csv", expected_res));
-    ASSERT_NO_FATAL_FAILURE(test_file(-1, data_dir + "/data2_crlf.csv", expected_res));
-    ASSERT_NO_FATAL_FAILURE(test_file(-1, data_dir + "/data3_utf8bom_lf.csv", expected_res));
+    const auto expected_res = " H [col1][col2] | [val1][001] | empty cell | [val2][002] | empty row | [val3] | "
+                              "[val4][004][xxx] | [val5][005] | ";
+
+    ASSERT_NO_FATAL_FAILURE(test_files(format, expected_res));
+}
+
+TEST(VincentlaucsbCsvParserTest, NoHeaderKeepNonEmpty)
+{
+    auto format = get_default_format();
+    format.no_header();
+    format.variable_columns(csv::VariableColumnPolicy::KEEP_NON_EMPTY);
+
+    const auto expected_res =
+        " H [col1][col2] | [val1][001] | empty cell | [val2][002] | [val3] | [val4][004][xxx] | [val5][005] | ";
+
+    ASSERT_NO_FATAL_FAILURE(test_files(format, expected_res));
+}
+
+TEST(VincentlaucsbCsvParserTest, NoHeaderIgnoreRow)
+{
+    auto format = get_default_format();
+    format.no_header();
+    format.variable_columns(csv::VariableColumnPolicy::IGNORE_ROW);
+
+    const auto expected_res = " H [col1][col2] | [val1][001] | [val2][002] | [val5][005] | ";
+
+    ASSERT_NO_FATAL_FAILURE(test_files(format, expected_res));
+}
+
+TEST(VincentlaucsbCsvParserTest, NoHeaderThrow)
+{
+    auto format = get_default_format();
+    format.no_header();
+    format.variable_columns(csv::VariableColumnPolicy::THROW);
+
+    // "Line too short" or "Line too long"
+    ASSERT_THAT([&] { test_files(format, ""); }, ThrowsMessage<std::runtime_error>(HasSubstr("Line too short")));
 }
