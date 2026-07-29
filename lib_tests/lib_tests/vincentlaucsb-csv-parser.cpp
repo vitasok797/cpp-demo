@@ -1,7 +1,11 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wswitch-enum"
 #include <vincentlaucsb-csv-parser/csv.hpp>
+#pragma GCC diagnostic pop
 
 #include <stdexcept>
 #include <string>
