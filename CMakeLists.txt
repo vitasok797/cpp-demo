@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30)
 
-project(demo_project)
+project(demo)
 
 include(cmake/modules.cmake)
 
@@ -12,11 +12,6 @@ function(configure_cxx_options target)
     target_treat_warnings_as_errors(${target})
 endfunction()
 
-# set(DEBUG_POSTFIX "_x64_Debug")
-# set_libraries_debug_postfix(${DEBUG_POSTFIX})
-
-# add_linux_relative_so_search_path(".")
-
 #--- dependencies --------------------------------------------------------------------------------
 
 set(CUR_TARGET dependencies)
@@ -25,36 +20,26 @@ add_library(${CUR_TARGET} INTERFACE)
 find_package(fmt CONFIG REQUIRED)
 target_link_libraries(${CUR_TARGET} INTERFACE fmt::fmt)
 
-#--- demo_project lib ----------------------------------------------------------------------------
+# add dependency here
 
-set(CUR_TARGET lib_demo_project)
-add_library(${CUR_TARGET} STATIC)
+#--- executable ----------------------------------------------------------------------------------
 
-target_link_libraries(${CUR_TARGET} PUBLIC dependencies)
-target_include_directories(${CUR_TARGET} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
-configure_cxx_options(${CUR_TARGET})
-
-target_sources(${CUR_TARGET} PRIVATE
-    "demo_project/to_str.cpp"
-    )
-
-#--- demo_project executable ---------------------------------------------------------------------
-
-set(CUR_TARGET demo_project)
+set(CUR_TARGET demo)
 add_executable(${CUR_TARGET})
 
-target_link_libraries(${CUR_TARGET} PRIVATE lib_demo_project)
+target_link_libraries(${CUR_TARGET} PRIVATE dependencies)
+target_include_directories(${CUR_TARGET} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 configure_cxx_options(${CUR_TARGET})
 
 target_sources(${CUR_TARGET} PRIVATE
-    "demo_project/demo_project.cpp"
+    "demo_project/main.cpp"
     )
 
 #--- tests executable ----------------------------------------------------------------------------
 
-option(DEMO_PROJECT_BUILD_TESTS "Build tests" ON)
+option(DEMO_BUILD_TESTS "Build tests" ON)
 
-if(DEMO_PROJECT_BUILD_TESTS AND "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+if(DEMO_BUILD_TESTS AND "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     enable_testing()
     find_package(GTest CONFIG REQUIRED)
 
@@ -62,12 +47,12 @@ if(DEMO_PROJECT_BUILD_TESTS AND "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     add_executable(${CUR_TARGET})
 
     target_link_libraries(${CUR_TARGET} PRIVATE GTest::gtest_main GTest::gmock)
-    target_link_libraries(${CUR_TARGET} PRIVATE lib_demo_project)
+    target_link_libraries(${CUR_TARGET} PRIVATE dependencies)
+    target_include_directories(${CUR_TARGET} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
     configure_cxx_options(${CUR_TARGET})
 
     target_sources(${CUR_TARGET} PRIVATE
-        "demo_project/to_str.test.cpp"
-        "test/integration_tests.cpp"
+        "test/tests.cpp"
         )
 
     include(GoogleTest)

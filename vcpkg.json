@@ -1,5 +1,5 @@
 {
-    "name": "demo-project",
+    "name": "demo",
     "dependencies": [
         "fmt",
         "gtest"
