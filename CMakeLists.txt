@@ -20,7 +20,11 @@ add_library(${CUR_TARGET} INTERFACE)
 find_package(fmt CONFIG REQUIRED)
 target_link_libraries(${CUR_TARGET} INTERFACE fmt::fmt)
 
-# add dependency here
+find_package(Crow CONFIG REQUIRED)
+target_link_libraries(${CUR_TARGET} INTERFACE Crow::Crow)
+if(WIN32)
+    target_compile_definitions(${CUR_TARGET} INTERFACE _WIN32_WINNT=0x0A00)
+endif()
 
 #--- executable ----------------------------------------------------------------------------------
 
