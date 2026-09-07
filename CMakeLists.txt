@@ -20,12 +20,16 @@ add_library(${CUR_TARGET} INTERFACE)
 find_package(fmt CONFIG REQUIRED)
 target_link_libraries(${CUR_TARGET} INTERFACE fmt::fmt)
 
-# add dependency here
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+target_link_libraries(${CUR_TARGET} INTERFACE Qt6::Widgets)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
 #--- executable ----------------------------------------------------------------------------------
 
 set(CUR_TARGET demo)
-add_executable(${CUR_TARGET})
+add_executable(${CUR_TARGET} WIN32)
 
 target_link_libraries(${CUR_TARGET} PRIVATE dependencies)
 target_include_directories(${CUR_TARGET} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")

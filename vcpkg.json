@@ -2,7 +2,17 @@
     "name": "demo",
     "dependencies": [
         "fmt",
-        "gtest"
+        "gtest",
+        {
+            "name": "qtbase",
+            "host": true,
+            "default-features": false
+        },
+        {
+            "name": "qtbase",
+            "default-features": false,
+            "features": ["widgets"]
+        }
     ],
     "builtin-baseline": "2b65c20fc66eda893aa15a15a453c3cf09500b19"
 }
